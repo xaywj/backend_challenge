@@ -11,7 +11,7 @@ export class AuthService {
   ) {}
 
   async validateUser(authDto: any) {
-   const user= this.usersRepository.findOneBy({ username: authDto.username }); 
+   const user= await this.usersRepository.findOneBy({ username: authDto.username }); 
    if(!user) throw new NotAcceptableException('Invalid credentials');
     return user;
   }
