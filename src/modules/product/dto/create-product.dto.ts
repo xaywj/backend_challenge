@@ -5,7 +5,7 @@ export class CreateProductDto {
   @IsNotEmpty()
   title: string;
 
-  @IsString()
+  @IsNotEmpty()
   @IsNumber()
   rate_id: number;
 
