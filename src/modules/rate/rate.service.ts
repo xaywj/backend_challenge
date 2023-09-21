@@ -1,26 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRateDto } from './dto/create-rate.dto';
 import { UpdateRateDto } from './dto/update-rate.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Rate } from './entities/rate.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class RateService {
-  create(createRateDto: CreateRateDto) {
-    return 'This action adds a new rate';
+  constructor(
+    @InjectRepository(Rate)
+    private ratesRepository: Repository<Rate>,
+  ) {}
+
+  async create(createRateDto: CreateRateDto) {
+    return await this.ratesRepository.save(createRateDto);
   }
 
-  findAll() {
-    return `This action returns all rate`;
+  async findAll() {
+    return await this.ratesRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} rate`;
+  async findOne(id: number) {
+    return await this.ratesRepository.findOneBy({ id: id });
   }
 
-  update(id: number, updateRateDto: UpdateRateDto) {
-    return `This action updates a #${id} rate`;
+  async update(id: number, updateRateDto: UpdateRateDto) {
+    const rate = await this.ratesRepository.findOneBy({ id: id });
+    if (!rate) throw new NotFoundException(`Rate #${id} not found`);
+    await this.ratesRepository.update(id, updateRateDto);
+    return rate;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} rate`;
+  async remove(id: number) { 
+    const rate = await this.ratesRepository.findOneBy({ id: id });
+    if (!rate) throw new NotFoundException(`Rate #${id} not found`);
+    await this.ratesRepository.delete(id);
+    return true;
   }
 }
