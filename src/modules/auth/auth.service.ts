@@ -1,7 +1,12 @@
-import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../user/entities/user.entity';
 import { Repository } from 'typeorm';
+import { IUser } from 'src/type/user.type';
 
 @Injectable()
 export class AuthService {
@@ -11,8 +16,10 @@ export class AuthService {
   ) {}
 
   async validateUser(authDto: any) {
-   const user= await this.usersRepository.findOneBy({ username: authDto.username }); 
-   if(!user) throw new NotAcceptableException('Invalid credentials');
+    const user: IUser = await this.usersRepository.findOneBy({
+      username: authDto.username,
+    });
+    if (!user) throw new NotAcceptableException('Invalid credentials');
     return user;
   }
 }
