@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Length } from 'class-validator';
 
 export class CreateRateDto {
   @IsString()
@@ -6,5 +6,6 @@ export class CreateRateDto {
   name: string;
 
   @IsNotEmpty()
-  reate: number; 
+  @IsNumber()
+  rate: number; 
 }
