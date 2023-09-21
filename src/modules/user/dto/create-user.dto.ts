@@ -6,6 +6,7 @@ export class CreateUserDto {
   name: string;
 
   @IsNotEmpty()
+  @Length(6, 18)
   phone: string;
 
   @IsNotEmpty()
