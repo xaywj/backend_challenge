@@ -24,6 +24,7 @@ export class ResponeInterceptor<T> implements NestInterceptor<T, Response<T>> {
         success: true,
         data: data,
         message: 'success',
+        timestamp: new Date().toISOString(),
         path: context.switchToHttp().getRequest().url,
       })),
     );
