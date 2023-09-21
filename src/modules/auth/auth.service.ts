@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../user/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -11,6 +11,8 @@ export class AuthService {
   ) {}
 
   async validateUser(authDto: any) {
-    return this.usersRepository.findOneBy({ username: authDto.username }); 
+   const user= this.usersRepository.findOneBy({ username: authDto.username }); 
+   if(!user) throw new NotAcceptableException('Invalid credentials');
+    return user;
   }
 }
