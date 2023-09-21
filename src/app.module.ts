@@ -15,7 +15,7 @@ import { ProductModule } from './modules/product/product.module';
       username: 'root',
       password: '',
       database: 'challenge_db',
-      entities: [],
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
     UserModule,
