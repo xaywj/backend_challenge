@@ -25,14 +25,12 @@ export class ProductService {
 
   async findAll() {
     // return await this.productRepository.find();
-   return await this.productRepository.createQueryBuilder('product')
-   .leftJoinAndSelect("product.rate", "rate")
-   .getMany(); 
-  }
-  createQueryBuilder(arg0: string) {
-    throw new Error('Method not implemented.');
-  }
-
+    return await this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.rate', 'rate')
+      .getMany();
+  } 
+  
   async findOne(id: number) {
     return await this.productRepository.findOneBy({ id: id });
   }

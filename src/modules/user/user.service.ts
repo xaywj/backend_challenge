@@ -41,8 +41,7 @@ export class UserService {
   async update(id: number, updateUserDto: UpdateUserDto) {
     // check if the user id exists in the table
     const user = await this.userRepository.findOneBy({ id: id });
-    if (!user) throw new NotFoundException(`User #${id} not found`);
-
+    if (!user) throw new NotFoundException(`User #${id} not found`); 
     // check if the username deference this id already exists in the table
     const username = await this.userRepository.findOneBy({
       username: updateUserDto.username,
@@ -51,7 +50,8 @@ export class UserService {
       throw new NotFoundException(
         `User ${updateUserDto.username} already exists`,
       );
-    return await this.userRepository.update(id, updateUserDto);
+     await this.userRepository.update(id, updateUserDto);
+     return user;
   }
 
   async remove(id: number) {

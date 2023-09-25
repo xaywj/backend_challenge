@@ -17,7 +17,10 @@ export class RateService {
   }
 
   async findAll() {
-    return await this.ratesRepository.find();
+    return await this.ratesRepository
+    .createQueryBuilder('rate')
+    .leftJoinAndSelect('rate.product', 'product')
+    .getMany();
   }
 
   async findOne(id: number) {
@@ -25,13 +28,13 @@ export class RateService {
   }
 
   async update(id: number, updateRateDto: UpdateRateDto) {
-    const rate = await this.ratesRepository.findOneBy({ id: id });
+    const rate = await this.ratesRepository.findOneBy({ id: id }); 
     if (!rate) throw new NotFoundException(`Rate #${id} not found`);
-    await this.ratesRepository.update(id, updateRateDto);
-    return rate;
+    const update=await this.ratesRepository.update(id, updateRateDto);
+    return await this.ratesRepository.findOneBy({ id: id }); 
   }
 
-  async remove(id: number) { 
+  async remove(id: number) {
     const rate = await this.ratesRepository.findOneBy({ id: id });
     if (!rate) throw new NotFoundException(`Rate #${id} not found`);
     await this.ratesRepository.delete(id);
