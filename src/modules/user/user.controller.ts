@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { AuthGuard } from './../../guard/guard';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Res, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Request, Response, request } from 'express';
 
 @Controller('user')
 export class UserController {
@@ -12,13 +14,19 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @UseGuards(AuthGuard)
   @Get()
-  findAll() {
+  findAll(@Req() req:Request) {
+    console.log(req.user);
     return this.userService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Req() req:Request, @Param('id') id: string) {
+    console.log("token");
+    console.log(req.user);
+    
+    
     return this.userService.findOne(+id);
   }
 

@@ -5,7 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
 import { RateModule } from './modules/rate/rate.module';
 import { ProductModule } from './modules/product/product.module';
-import { AuthModule } from './modules/auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module'; 
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AuthModule } from './modules/auth/auth.module';
       synchronize: true,
     }),
     UserModule,
+    PassportModule,
     RateModule,
     ProductModule,
     AuthModule,
